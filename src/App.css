@@ -36,3 +36,46 @@
     transform: rotate(360deg);
   }
 }
+
+.header-bar {
+  background-color: #292929;
+}
+
+.custom-tooltip {
+  padding: 8px 10px !important;
+}
+
+.rc-slider-mark {
+  padding: 20px;
+}
+.rc-slider-tooltip {
+  color: red !important;
+}
+
+.early_year {
+  color: gold;
+  margin-left: 15px;
+  margin-right: 15px;
+  font-size: 2.3rem;
+}
+
+.late_year {
+  color: blue;
+  margin-left: 15px;
+  margin-right: 15px;
+  font-size: 2.3rem;
+}
+
+.headline {
+  font-family: inherit;
+  margin-bottom: 40px;
+  margin-top: 40px;
+}
+
+.navbar-brand {
+  font-size: 1.5rem !important;
+}
+
+.negative-return {
+  color: red;
+}
