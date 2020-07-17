@@ -1,8 +1,6 @@
 import React, { useState, useContext } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import StateContext from "./StateContext";
-import DispatchContext from "./DispatchContext";
 import Tooltip from "react-tooltip";
 import { grey, red, blue } from "color-name";
 
@@ -18,49 +16,74 @@ const style2 = {
   fontSize: 30,
   color: "grey"
 };
-const { Handle } = Slider;
 
-const handle = props => {
-  return (
-    <Tooltip
-      prefixCls="rc-slider-tooltip"
-      overlay={props.value}
-      placement="bottom"
-      key={props.index}
-    >
-      <Handle value={props.value} {...props} />
-    </Tooltip>
-  );
-};
 function OurSlider(props) {
-  const appState = useContext(StateContext);
-  const appDispatch = useContext(DispatchContext);
+  //functions to update our state value (using the input bar)
+  function onLowerBoundChange(e) {
+    e.preventDefault();
+    props.setLowerBound(e.target.value);
+    console.log("lower bound changed");
+  }
 
+  function onUpperBoundChange(e) {
+    e.preventDefault();
+    props.setUpperBound(e.target.value);
+    console.log("upper bound changed");
+  }
+  //function to update our state value (using the range slider)
   function handleChange(value) {
-    // appDispatch({ type: "alterValue", value: value });
-    props.setSliderValue(value);
+    props.setLowerBound(value[0]);
+    props.setUpperBound(value[1]);
   }
 
   return (
     <div className="container">
       <h4 style={{ marginTop: 30 }}>
         Use the slider to customize the range of years for which you wish to
-        view the S&P returns.
+        view the S&P returns. Alternatively, adjust the years in the appropriate
+        boxes.
       </h4>
-      <div className="row justify-content-center">
+      <div className="row justify-content-end">
         <span style={style2}>1926</span>
+
+        {/* range slider */}
         <OurRange
           className="text-right"
-          handle={handle}
-          defaultValue={[1970, 2018]}
+          defaultValue={[props.lowerBound, props.upperBound]}
+          value={[props.lowerBound, props.upperBound]}
           min={1926}
           max={2018}
-          onAfterChange={handleChange}
+          onChange={handleChange}
           allowCross={false}
           {...props}
           style={style}
         />
         <span style={style2}>2018</span>
+        <div>
+          <div className="row" style={{ marginBottom: 10, marginTop: 20 }}>
+            <label className="col-2 mt-1">From:</label>
+            <div className="col-7">
+              <input
+                className="form-control form-control-sm "
+                type="number"
+                value={props.lowerBound}
+                onChange={onLowerBoundChange}
+              />
+            </div>
+          </div>
+
+          <div className="row">
+            <label className="col-2 mt-1">Until:</label>
+            <div className="col-7">
+              <input
+                className="form-control form-control-sm "
+                type="number"
+                value={props.upperBound}
+                onChange={onUpperBoundChange}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

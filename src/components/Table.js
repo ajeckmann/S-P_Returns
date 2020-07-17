@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function Table(props) {
+  //function to display the cumulative returns from start year to given year
   function cumulativeData(index) {
     let sum = 0;
     for (var i = 0; i <= index; i++) {
@@ -17,8 +18,8 @@ export default function Table(props) {
           <div className="pl-0">
             <h3 className="headline">S&P 500 Total Returns </h3>
             <h3 className="headline">
-              <span className="early_year mr-10">{props.sliderValue[0]}</span>{" "}
-              to <span className="late_year">{props.sliderValue[1]}</span>
+              <span className="early_year mr-10">{props.lowerBound}</span> to{" "}
+              <span className="late_year">{props.upperBound}</span>
             </h3>
             <table className="table table-hover">
               <thead>
@@ -39,6 +40,7 @@ export default function Table(props) {
                         {d.totalReturn}
                       </td>
                       <td
+                        //ternary operartor so that negative returns will be displayed in red//
                         className={
                           cumulativeData(idx) < 0 ? "negative-return" : null
                         }

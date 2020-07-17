@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useImmerReducer } from "use-immer";
 import logo from "./logo.svg";
 import "./App.css";
 import NavBar from "./components/NavBar";
@@ -10,32 +9,40 @@ import Table from "./components/Table";
 import "bootstrap/dist/css/bootstrap.css";
 
 function App() {
-  const [sliderValue, setSliderValue] = useState([1970, 2018]);
-  function tempReducer(draftState, action) {
-    switch (action.type) {
-      case "alterValue":
-        draftState.value = action.value;
+  //store the bounds in state
+  const [lowerBound, setLowerBound] = useState(1970);
+  const [upperBound, setUpperBound] = useState(2018);
 
-        return;
-    }
-  }
-
-  //now let's properly sort the data
+  //to properly sort the data in ascending order
   allReturns.sort((x, y) => (x.year > y.year ? 1 : -1));
+
+  //to properly filter returns from the lowerBound year to the upperBound year
   const filteredReturns = allReturns.filter(
-    element => element.year >= sliderValue[0] && element.year <= sliderValue[1]
+    element => element.year >= lowerBound && element.year <= upperBound
   );
 
   return (
     <div className="App">
       <NavBar />
       <div className="container-fluid">
-        <OurSlider setSliderValue={setSliderValue} sliderValue={sliderValue} />
+        <OurSlider
+          lowerBound={lowerBound}
+          upperBound={upperBound}
+          setLowerBound={setLowerBound}
+          setUpperBound={setUpperBound}
+        />
 
         <div className="col text-right">
-          <Table data={filteredReturns} sliderValue={sliderValue} />
+          <Table
+            //pass in the data to the table
+            data={filteredReturns}
+            //pass in the bounds, and their set properties
+            lowerBound={lowerBound}
+            upperBound={upperBound}
+            setLowerBound={setLowerBound}
+            setUpperBound={setUpperBound}
+          />
         </div>
-        <div className="col text-left"></div>
       </div>
     </div>
   );
